@@ -41,7 +41,7 @@ public class SpeechRecognition {
     String accountId = System.getenv("ACCOUNT_ID");
     String authToken = System.getenv("AUTH_TOKEN");
     String applicationId = System.getenv("TUTORIAL_APPLICATION_ID");
-    String toNumber = "+16302726769";
+    String toNumber = "";
 
     outDial(accountId, authToken, toNumber, applicationId);
   }
