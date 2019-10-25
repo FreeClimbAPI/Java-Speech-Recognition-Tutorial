@@ -1,8 +1,8 @@
 package main.java.speech_recognition;
 
-import com.vailsys.persephony.webhooks.call.VoiceCallback;
-import com.vailsys.persephony.webhooks.percl.GetSpeechActionCallback;
-import com.vailsys.persephony.webhooks.percl.SpeechReason;
+import com.vailsys.freeclimb.webhooks.call.VoiceCallback;
+import com.vailsys.freeclimb.webhooks.percl.GetSpeechActionCallback;
+import com.vailsys.freeclimb.webhooks.percl.SpeechReason;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
@@ -12,28 +12,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vailsys.persephony.percl.PerCLScript;
-import com.vailsys.persephony.percl.Say;
-import com.vailsys.persephony.percl.GetSpeech;
-import com.vailsys.persephony.percl.GetSpeechNestable;
-import com.vailsys.persephony.percl.GrammarType;
-import com.vailsys.persephony.percl.Hangup;
-import com.vailsys.persephony.percl.Language;
-import com.vailsys.persephony.percl.Pause;
-import com.vailsys.persephony.api.call.Call;
-import com.vailsys.persephony.api.call.CallStatus;
+import com.vailsys.freeclimb.percl.PerCLScript;
+import com.vailsys.freeclimb.percl.Say;
+import com.vailsys.freeclimb.percl.GetSpeech;
+import com.vailsys.freeclimb.percl.GetSpeechNestable;
+import com.vailsys.freeclimb.percl.GrammarType;
+import com.vailsys.freeclimb.percl.Hangup;
+import com.vailsys.freeclimb.percl.Language;
+import com.vailsys.freeclimb.percl.Pause;
+import com.vailsys.freeclimb.api.call.Call;
+import com.vailsys.freeclimb.api.call.CallStatus;
 
 import java.io.File;
 import java.util.LinkedList;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.vailsys.persephony.api.PersyClient;
-import com.vailsys.persephony.api.PersyException;
+import com.vailsys.freeclimb.api.FreeClimbClient;
+import com.vailsys.freeclimb.api.FreeClimbException;
 
 @RestController
 public class SpeechRecognition {
-  private static final String fromNumber = System.getenv("PERSEPHONY_PHONE_NUMBER");
+  private static final String fromNumber = System.getenv("FREE_CLIMB_PHONE_NUMBER");
   private final String selectColorDone = System.getenv("HOST") + "/SelectColorDone";
   private final String grammarDownload = System.getenv("HOST") + "/grammarFile";
 
@@ -48,11 +48,11 @@ public class SpeechRecognition {
 
   public static void outDial(String accountId, String authToken, String toNumber, String applicationId) {
     try {
-      // Create PersyClient object
-      PersyClient client = new PersyClient(accountId, authToken);
+      // Create FreeClimbClient object
+      FreeClimbClient client = new FreeClimbClient(accountId, authToken);
 
       Call call = client.calls.create(toNumber, fromNumber, applicationId);
-    } catch (PersyException ex) {
+    } catch (FreeClimbException ex) {
       // Exception throw upon failure
     }
   }
@@ -64,7 +64,7 @@ public class SpeechRecognition {
     try {
       // Convert JSON into call status callback object
       callStatusCallback = VoiceCallback.createFromJson(body);
-    } catch (PersyException pe) {
+    } catch (FreeClimbException pe) {
       PerCLScript errorScript = new PerCLScript();
       Say sayError = new Say("There was a problem processing the incoming call.");
       errorScript.add(sayError);
@@ -80,7 +80,7 @@ public class SpeechRecognition {
       GetSpeech getSpeech = new GetSpeech(selectColorDone, grammarDownload);
       // Set location and type of grammar as well as the grammar rule
       getSpeech.setGrammarType(GrammarType.URL);
-      getSpeech.setGrammarRule("PersyColor");
+      getSpeech.setGrammarRule("FreeClimbColor");
 
       // Create PerCL GetSpeechNestable list
       LinkedList<GetSpeechNestable> prompts = new LinkedList<>();
@@ -109,7 +109,7 @@ public class SpeechRecognition {
     try {
       // convert JSON into get speech status callback object
       getSpeechActionCallback = GetSpeechActionCallback.createFromJson(body);
-    } catch (PersyException pe) {
+    } catch (FreeClimbException pe) {
       PerCLScript errorScript = new PerCLScript();
       Say sayError = new Say("Error with get speech callback.");
       errorScript.add(sayError);
