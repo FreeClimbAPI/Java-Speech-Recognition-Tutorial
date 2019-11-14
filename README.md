@@ -1,6 +1,6 @@
 # Java - Speech Recognition Tutorial
 
-This project serves as a guide to help you build an application with FreeClimb. Specifically, the project will:
+This project serves as a guide to help you build an application with FreeClimb. View this tutorial on [FreeClimb.com](https://docs.freeclimb.com/docs/add-speech-recognition-1#section-java). Specifically, the project will:
 
 - Make an outgoing Call
 - Prompt the participant for a response
@@ -23,7 +23,7 @@ To get started using a FreeClimb account, follow the instructions [here](https:/
    | HOST                    | The url of where your app is being hosted (e.g. yourHostedApp.com)                                                                                                                 |
    | FREE_CLIMB_PHONE_NUMBER | The FreeClimb number that is being used to make a phone call. To learn more go [here](https://docs.freeclimb.com/docs/getting-started-with-freeclimb#section-2-get-a-phone-number) |
 
-2) Provide a value for the variable `to` in speechRecognition.java. The `to` number is any phone number you wish to call. This number must be [verified](https://docs.freeclimb.com/docs/using-your-trial-account#section-verifying-outbound-numbers).
+2) Provide a value for the variable `to` in speechRecognition.java. The `to` number is any phone number you wish to call. This number must be [verified](https://docs.freeclimb.com/docs/using-your-trial-account#section-verifying-outbound-numbers) (for trial users) and in E.164 format.
 
 ## Building and Runnning the Tutorial
 
